@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <title>Home</title>
+
+</head>
+    <body>
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <div v-for="artiste in artistes" class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <img :src="artiste.acf.image" class="card-img-top" alt="...">
+                                <h5 class="card-title" v-html="artiste.acf.titre"></h5>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" @click="getArtiste(artiste.id)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Plus</button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fermer</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+<script>
+
+    var artiste = new Vue({
+        el: '#app',
+        data:{
+            artistes: [],
+            afficher: false,
+            artisteModal: {}
+        },
+
+        mounted: function () {
+            this.recuperedPosts()
+        },
+
+        methods: {
+            getArtiste: function(id){
+
+        },
+
+
+            recuperedPosts: function(){
+                vm = this;
+
+                var myHeaders = new Headers();
+                var myInit = { method: 'GET',
+                    headers: myHeaders,
+                    //mode: 'no-cors',
+                    cache: 'default'};
+
+                fetch('https://mspr.projets-ecole.ovh/wp-json/wp/v2/artiste/?per_page=100', myInit).then(function(response) {
+                    response.json().then(function(response){
+                        console.log(response);
+                        vm.artistes = response;
+                        vm.afficher = true;
+                    })
+                })
+            }
+        }
+    });
+
+</script>
+
+
+
