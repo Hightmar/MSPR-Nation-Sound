@@ -8,50 +8,69 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://keaukraine.github.io/bootstrap-fs-modal/dist/css/fs-modal.min.css">
+    <script src="https://keaukraine.github.io/bootstrap-fs-modal/dist/js/fs-modal.min.js "></script>
+
 
     <title>Home</title>
 
 </head>
     <body>
         <div id="app">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="card-columns">
-                    <div v-for="artiste in artistes" class="col-sm">
-                        <div class="card">
+                        <div class="card" v-for="artiste in artistes">
                             <div class="card-body">
                                 <img :src="artiste.acf.image" class="card-img-top" alt="...">
                                 <h5 class="card-title" v-html="artiste.acf.titre"></h5>
-                                    <!-- Button trigger modal -->
-                                    <button type="button" @click="getArtiste(artiste.id)" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Plus</button>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + artiste.id">Plus</button>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel" v-html="artiste.acf.image"></h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
+                                <!-- Modal -->
+                                <div class="modal fade modal-fullscreen" :id="'modal' + artiste.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content modal-fullscreen">
+                                            <div class="modal-header">
+                                                <h5 v-if="artiste.render" class="modal-title" id="exampleModalLabel" v-html="artiste.scf.title"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img :src="artiste.acf.image" class="img-fluid float-left" alt="...">
+                                                <div v-html="artiste.acf.contenu_fr"></div>
 
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fermer</button>
-                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fermer</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
     </body>
 </html>
 
+<!--<style>-->
+    <!--.card-columns {-->
+    <!--@include media-breakpoint-only(xl) {-->
+        <!--column-count: 6;-->
+    <!--}-->
+    <!--@include media-breakpoint-only(lg) {-->
+        <!--column-count: 5;-->
+    <!--}-->
+    <!--@include media-breakpoint-only(md) {-->
+        <!--column-count: 3;-->
+    <!--}-->
+    <!--@include media-breakpoint-only(sm) {-->
+        <!--column-count: 2;-->
+    <!--}-->
+    <!--}-->
+<!--</style>-->
 
 
 <script>
@@ -61,7 +80,7 @@
         data:{
             artistes: [],
             afficher: false,
-            artisteModal: {}
+            artisteModal: {render: false}
         },
 
         mounted: function () {
@@ -71,6 +90,13 @@
         methods: {
             getArtiste: function(id){
 
+                this.artisteModal = this.artistes.filter(function (a) {
+                    if(a.id === id){
+                        console.log(a);
+                        a.render = true;
+                        return a;
+                    }
+                })
 
         },
 
