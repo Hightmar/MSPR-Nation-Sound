@@ -20,11 +20,15 @@
             <div class="container-fluid">
                 <div class="card-columns">
                         <div class="card" v-for="artiste in artistes">
-                            <div class="card-body">
-                                <img :src="artiste.acf.image" class="card-img-top" alt="...">
-                                <h5 class="card-title" v-html="artiste.acf.titre"></h5>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + artiste.id">Plus</button>
+
+                            <!-- Rend toutes la card cliquable-->
+                            <div data-toggle="modal" :data-target="'#modal' + artiste.id">
+                                <div class="card-body">
+                                    <img :src="artiste.acf.image" class="card-img-top" alt="...">
+                                    <h5 class="card-title" v-html="artiste.acf.titre"></h5>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + artiste.id">Plus</button>
+                            </div>
 
                                 <!-- Modal -->
                                 <div class="modal fade modal-fullscreen" :id="'modal' + artiste.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -37,12 +41,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <img :src="artiste.acf.image" class="img-fluid float-left" alt="...">
+
+                                                <!-- Contenu de la modal-->
+                                                <img :src="artiste.acf.image" class="card-img-top" alt="...">
                                                 <div v-html="artiste.acf.contenu_fr"></div>
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fermer</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                                             </div>
                                         </div>
                                     </div>
@@ -54,28 +60,6 @@
         </div>
     </body>
 </html>
-
-<style>
-    /*.card-columns {*/
-
-        /*@include media-breakpoint-only(sm) {*/
-            /*column-count: 2!important;*/
-        /*}*/
-
-        /*@include media-breakpoint-only(xl) {*/
-            /*column-count: 6!important;*/
-
-        /*}*/
-        /*@include media-breakpoint-only(lg) {*/
-            /*column-count: 5!important;*/
-        /*}*/
-        /*@include media-breakpoint-only(md) {*/
-            /*column-count: 2!important;*/
-        /*}*/
-
-    /*}*/
-</style>
-
 
 <script>
 
@@ -101,8 +85,7 @@
                         return a;
                     }
                 })
-
-        },
+            },
 
 
             recuperedPosts: function(){
@@ -112,7 +95,8 @@
                 var myInit = { method: 'GET',
                     headers: myHeaders,
                     //mode: 'no-cors',
-                    cache: 'default'};
+                    cache: 'default'
+                };
 
                 fetch('https://mspr.projets-ecole.ovh/wp-json/wp/v2/artiste/?per_page=100', myInit).then(function(response) {
                     response.json().then(function(response){
