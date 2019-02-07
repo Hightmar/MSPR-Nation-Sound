@@ -1,0 +1,59 @@
+.logo{
+  width: 75px;
+  display: flex;
+  justify-content: center;
+}
+
+.message-important{
+  background-color: #A83535;
+}
+
+.artistes{
+
+}
+
+.billeterie{
+  background-color: #23C7C8;
+  text-align: center;
+}
+
+.nouvelles-generales{
+  background-color: #FFAD00
+}
+
+.maps{
+
+}
+
+.texte-message-important{
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  vertical-align: middle;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.texte-billeterie{
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  vertical-align: middle;
+  padding-top: 10px;
+}
+
+.texte-nouvelles-generales{
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  vertical-align: middle;
+  padding-top: 0px;
+}
+.texte-maps{
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  vertical-align: middle;
+  padding-top: 0px;
+}
