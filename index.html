@@ -19,161 +19,121 @@
 
 </head>
 <body>
-<div id="app">
+    <div id="app">
+        <nav class="navbar navbar-dark bg-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img class="logo" src="images/logo-nationsounds.png"></img>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    <nav class="navbar navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img class="logo" src="images/logo-nationsounds.png"></img>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto w-100 justify-content-end">
-                    <li class="nav-item active">
-                        <a class="nav-link h6" href="#"><i class="fas fa-home"> </i> HOME </a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fas fa-headphones-alt"></i> PROGRAMMATION<br></a>
-                        <a class="text-muted" @click="getAffichageArtistes()">PAR ARTISTE<br></a>
-                        <a class="text-muted" @click="getAffichageScenes()">PAR SCENE<br></a>
-                        <a class="text-muted">PAR JOUR<br></a>
-                        <a class="text-muted">MES FAVORIS<br></a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fas fa-map-marker-alt"></i> CARTE INTERACTIVE<br></a>
-                        <a class="text-muted">ITINÉRAIRE<br></a>
-                        <a class="text-muted">RESTAURATION<br></a>
-                        <a class="text-muted">BAR<br></a>
-                        <a class="text-muted">WC<br></a>
-                        <a class="text-muted">MERCHANDISING</a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fab fa-facebook-square"></i> RÉSEAUX SOCIAUX</a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fas fa-info-circle"></i> INFOS PRATIQUES</a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fas fa-hands-helping"></i> PARTENAIRES</a>
-                    <li class="nav-item active">
-                        <div class="dropdown-divider"></div>
-                        <a class="text-white h6"><i class="fas fa-comment-alt"></i> FAQ</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    <div class="container-fluid message-important">
-        <p class="texte-message-important-alerte"><i class="fas fa-exclamation-circle"></i> ALERTE</p>
-        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active"><p class="texte-message-important" alt="First slide"> Attention canicule : pensez à vous hydrater<p></div>
-                <div class="carousel-item"><p class="texte-message-important" alt="First slide">Le festival ouvre ses portes dans 10 minutes<p></div>
-                <div class="carousel-item"><p class="texte-message-important" alt="First slide">Changement d'horaire : Calvin Harris 10h Scène 3<p></div>
-            </div>
-
-            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-
-            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-
-    <!--<div class="container-fluid artistes"><img :src="artiste.acf.image"></div>-->
-    <!--<div class="container-fluid billeterie"><a href="https://www.fnacspectacles.com/"class="texte-billeterie"> BILLETERIE </a></div>-->
-    <!--<div class="container-fluid nouvelles-generales"><p class="texte-nouvelles-generales"> NEWS</p></div>-->
-    <!--<div class="container-fluid maps"><p class="texte-maps"> CARTE INTERACTIVE</p></div>-->
-
-    <div class="container-fluid">
-        <div v-if="affichage.listeArtistes" id="artistes"> <!-- A LIER DANS LE MENU -->
-            <div class="card-columns">
-                <div class="card" v-for="artiste in artistes">
-
-                    <!-- Rend toute la card cliquable-->
-                    <div data-toggle="modal" :data-target="'#modal' + artiste.id">
-                        <div class="card-body">
-                            <div class="border-artiste">
-                                <img :src="artiste.acf.image" class="card-img-top" alt="...">
-                                <h5 class="card-title text-center" v-html="artiste.acf.titre"></h5>
-                            </div>
-                            <div class="card-footer text-center bg-transparent border-success-orange">{{artiste.acf.date_fr}} à {{artiste.acf.horaires}}, scène n°{{artiste.acf.scene}}</div>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + artiste.id">En apprendre plus</button>
-                        </div>
-
-                        <!-- Modal -->
-                        <div class="modal fade modal-fullscreen" :id="'modal' + artiste.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content modal-fullscreen">
-                                    <div class="modal-header">
-                                        <h5 v-if="artiste.render" class="modal-title" id="exampleModalLabel" v-html="artiste.scf.title"></h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-
-                                        <!-- Contenu de la modal-->
-                                        <img :src="artiste.acf.image" class="card-img-top" alt="...">
-                                        <div class="texte-artiste">{{artiste.acf.date_fr}} à {{artiste.acf.horaires}}, scène n°{{artiste.acf.scene}}</div>
-                                        <div class="texte-artiste">Style : {{artiste.acf.style}}</div>
-                                        <div class="texte-artiste" v-html="artiste.acf.contenu_fr"></div>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="collapse navbar-collapse collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                        <li class="nav-item active">
+                            <a class="nav-link h6 visible-xs" href="#" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-home"> </i> HOME </a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-headphones-alt"></i> PROGRAMMATION<br></a>
+                            <a class="text-muted visible-xs" @click="getAffichageArtistes()" data-toggle="collapse" data-target=".navbar-collapse">PAR ARTISTE<br></a>
+                            <a class="text-muted visible-xs" @click="getAffichageScenes()" data-toggle="collapse" data-target=".navbar-collapse">PAR SCENE<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">PAR JOUR<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">MES FAVORIS<br></a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-map-marker-alt"></i> CARTE INTERACTIVE<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">ITINÉRAIRE<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">RESTAURATION<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">BAR<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">WC<br></a>
+                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">MERCHANDISING</a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fab fa-facebook-square"></i> RÉSEAUX SOCIAUX</a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-info-circle"></i> INFOS PRATIQUES</a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-hands-helping"></i> PARTENAIRES</a>
+                        <li class="nav-item active">
+                            <div class="dropdown-divider"></div>
+                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-comment-alt"></i> FAQ</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+
+
+        <div class="container-fluid message-important">
+            <p class="texte-message-important-alerte"><i class="fas fa-exclamation-circle"></i> ALERTE</p>
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><p class="texte-message-important" alt="First slide"> Attention canicule : pensez à vous hydrater<p></div>
+                    <div class="carousel-item"><p class="texte-message-important" alt="First slide">Le festival ouvre ses portes dans 10 minutes<p></div>
+                    <div class="carousel-item"><p class="texte-message-important" alt="First slide">Changement d'horaire : Calvin Harris 10h Scène 3<p></div>
+                </div>
+
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
-        <div v-if="affichage.listeScenes">
-            <div class="card-columns">
-                <div class="card" v-for="scene in scenes">
-                    <!-- Rend toute la card cliquable-->
-                    <div data-toggle="modal" :data-target="'#modal' + scene.id">
-                        <div class="card-body">
-                            <div class="border-artiste">
-                                <img :src="scene.acf.url" class="card-img-top" alt="...">
-                                <h5 class="card-title text-center" v-html="scene.acf.nom_scene"></h5>
+
+        <!--<div class="container-fluid artistes"><img :src="artiste.acf.image"></div>-->
+        <!--<div class="container-fluid billeterie"><a href="https://www.fnacspectacles.com/"class="texte-billeterie"> BILLETERIE </a></div>-->
+        <!--<div class="container-fluid nouvelles-generales"><p class="texte-nouvelles-generales"> NEWS</p></div>-->
+        <!--<div class="container-fluid maps"><p class="texte-maps"> CARTE INTERACTIVE</p></div>-->
+
+        <div class="container-fluid">
+            <div v-if="affichage.listeArtistes" id="artistes"> <!-- A LIER DANS LE MENU -->
+                <div class="card-columns">
+                    <div class="card" v-for="artiste in artistes">
+
+                        <!-- Rend toute la card cliquable-->
+                        <div data-toggle="modal" :data-target="'#modal' + artiste.id">
+                            <div class="card-body">
+                                <div class="border-artiste">
+                                    <img :src="artiste.acf.image" class="card-img-top" alt="...">
+                                    <h5 class="card-title text-center" v-html="artiste.acf.titre"></h5>
+                                </div>
+                                <div class="card-footer text-center bg-transparent border-success-orange">{{artiste.acf.date_fr}} à {{artiste.acf.horaires}}, scène n°{{artiste.acf.scene}}</div>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + artiste.id">En apprendre plus</button>
                             </div>
-                            <div class="card-footer text-center bg-transparent border-success-orange"> test</div>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + scene.id">En apprendre plus</button>
-                        </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade modal-fullscreen" :id="'modal' + scene.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabelscene" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content modal-fullscreen">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabelscene" v-html="scene.acf.nom_scene"></h5><!--v-if="artiste.render" -->
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
+                            <!-- Modal -->
+                            <div class="modal fade modal-fullscreen" :id="'modal' + artiste.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content modal-fullscreen">
+                                        <div class="modal-header-artiste">
+                                            <h5 v-if="artiste.render" class="modal-title" id="exampleModalLabel" v-html="artiste.scf.title"></h5>
+                                            <button type="button" class="close btn btn-outline-dark" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
 
-                                        <!-- Contenu de la modal-->
-                                        <!--<img :src="artiste.acf.image" class="card-img-top" alt="...">-->
-                                        <!--<div class="texte-artiste" v-html="artiste.acf.contenu_fr"></div>-->
+                                            <!-- Contenu de la modal-->
+                                            <img :src="artiste.acf.image" class="card-img-top" alt="...">
+                                            <div class="texte-nom"><i class="fas fa-calendar"></i> {{artiste.acf.date_fr}} <br> <i class="fas fa-clock"></i> {{artiste.acf.horaires}} <br> <i class="fas fa-map-pin"></i> Scène {{artiste.acf.scene}}</div>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="texte-style"> {{artiste.acf.style}}</div>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="texte-artiste" v-html="artiste.acf.contenu_fr"></div>
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -182,9 +142,60 @@
                 </div>
             </div>
 
+            <div v-if="affichage.listeScenes">
+                <h1 class="text-center"> LISTE DES SCÈNES </h1>
+                <div class="card-columns">
+                    <div class="card" v-for="scene in scenes">
+                        <!-- Rend toute la card cliquable-->
+                        <div data-toggle="modal" :data-target="'#modal' + scene.id">
+                            <div class="card-body">
+                                <div class="border-artiste">
+                                    <img :src="scene.acf.image_de_la_scene.url" class="card-img-top" alt="...">
+                                    <h5 class="card-title text-center" v-html="scene.acf.nom_scene"></h5>
+                                </div>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" :data-target="'#modal' + scene.id">En apprendre plus</button>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade modal-fullscreen" :id="'modal' + scene.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabelscene" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content modal-fullscreen">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabelscene" v-html="scene.acf.nom_scene"></h5><!--v-if="artiste.render" -->
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <!-- Contenu de la modal-->
+                                            <!--<img :src="artiste.acf.image_de_la_scene" class="card-img-top" alt="...">-->
+                                            <div v-for="artiste in getArtisteScene(scene.acf.numero_de_la_scene)" class="texte-artiste">{{artiste.acf.titre}}</div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="affichage.listeJours">
+                <h1 class="text-center"> TRI PAR JOUR </h1>
+                <button type="button" class="btn btn-primary d-inline" @click="">Vendredi</button>
+                <button type="button" class="btn btn-primary d-inline" @click="">Samedi</button>
+                <button type="button" class="btn btn-primary d-inline" @click="">Dimanche</button>
+
+            </div>
+        <!-- Container-->
         </div>
+    <!-- #app -->
     </div>
-</div>
 </body>
 </html>
 
@@ -201,14 +212,16 @@
             artisteModal: {render: false},
             affichage:{
                 listeArtistes: false,
-                listeScenes: true
+                listeScenes: false,
+                listeJours: true
             }
         },
 
         // Lance le script dès le chargement de la page
         mounted: function () {
             this.recuperedArtistes();
-            this.recuperedScenes()
+            this.recuperedScenes();
+
         },
 
         // Methods pour afficher le contenu de la modal en rapport avec la card cliquée
@@ -218,15 +231,17 @@
                 console.log('test')
             },
 
-            getArtiste: function(id){
+            getArtisteScene: function(id){
 
-                this.artisteModal = this.artistes.filter(function (a) {
-                    if(a.id === id){
+                var artistesScene = this.artistes.filter(function (a) {
+                    if(a.acf.scene === id){
                         console.log(a);
-                        a.render = true;
+
                         return a;
                     }
-                })
+                });
+
+                return artistesScene;
             },
 
             getAffichageArtistes: function(){
@@ -234,10 +249,18 @@
                 console.log(this.affichage.listeArtistes);
                 this.affichage.listeArtistes = true;
                 this.affichage.listeScenes = false;
+                this.affichage.listeJours = false;
             },
 
             getAffichageScenes: function(){
                 this.affichage.listeArtistes = false;
+                this.affichage.listeJours = false;
+                this.affichage.listeScenes = true;
+            },
+
+            getAffichageJours: function(){
+                this.affichage.listeArtistes = false;
+                this.affichage.listeJours = false;
                 this.affichage.listeScenes = true;
             },
 

@@ -142,4 +142,23 @@ a.texte-billeterie:hover{
 .texte-artiste{
   padding: 20px 10px;
   text-align: justify;
+  font-size: 12px;
+}
+
+.texte-nom{
+  background-color: rgb(57, 60, 66);
+  text-transform: uppercase;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+  color: white;
+  line-height: 200%;
+}
+
+.texte-style{
+  color: #FFAC00;
+  font-size: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px;
 }
