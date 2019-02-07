@@ -38,7 +38,7 @@
                             <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-headphones-alt"></i> PROGRAMMATION<br></a>
                             <a class="text-muted visible-xs" @click="getAffichageArtistes()" data-toggle="collapse" data-target=".navbar-collapse">PAR ARTISTE<br></a>
                             <a class="text-muted visible-xs" @click="getAffichageScenes()" data-toggle="collapse" data-target=".navbar-collapse">PAR SCENE<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">PAR JOUR<br></a>
+                            <a class="text-muted visible-xs" @click="getAffichageJours()" data-toggle="collapse" data-target=".navbar-collapse">PAR JOUR<br></a>
                             <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">MES FAVORIS<br></a>
                         <li class="nav-item active">
                             <div class="dropdown-divider"></div>
@@ -161,7 +161,7 @@
                             <div class="modal fade modal-fullscreen" :id="'modal' + scene.id" tabindex="-1"  role="dialog" aria-labelledby="exampleModalLabelscene" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content modal-fullscreen">
-                                        <div class="modal-header">
+                                        <div class="modal-header-article">
                                             <h5 class="modal-title" id="exampleModalLabelscene" v-html="scene.acf.nom_scene"></h5><!--v-if="artiste.render" -->
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -171,8 +171,9 @@
 
                                             <!-- Contenu de la modal-->
                                             <!--<img :src="artiste.acf.image_de_la_scene" class="card-img-top" alt="...">-->
-                                            <div v-for="artiste in getArtisteScene(scene.acf.numero_de_la_scene)" class="texte-artiste">{{artiste.acf.titre}}</div>
-
+                                            <div class="dropdown-divider"></div>
+                                            <div v-for="artiste in getArtisteScene(scene.acf.numero_de_la_scene)" class="texte-scene"><strong>{{artiste.acf.titre}} </strong><i class="fas fa-angle-double-right" style="color:#FFAC00"></i> {{artiste.acf.date_fr}}<i style="color:#FFAC00" class="fas fa-angle-double-right"></i> {{artiste.acf.horaires}}</div>
+                                            <div class="dropdown-divider"></div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -187,9 +188,9 @@
 
             <div v-if="affichage.listeJours">
                 <h1 class="text-center"> TRI PAR JOUR </h1>
-                <button type="button" class="btn btn-primary d-inline" @click="">Vendredi</button>
-                <button type="button" class="btn btn-primary d-inline" @click="">Samedi</button>
-                <button type="button" class="btn btn-primary d-inline" @click="">Dimanche</button>
+                <button type="button" class="btn btn-primary d-inline">Vendredi</button>
+                <button type="button" class="btn btn-primary d-inline">Samedi</button>
+                <button type="button" class="btn btn-primary d-inline">Dimanche</button>
 
             </div>
         <!-- Container-->
@@ -213,7 +214,7 @@
             affichage:{
                 listeArtistes: false,
                 listeScenes: false,
-                listeJours: true
+                listeJours: false
             }
         },
 
@@ -246,22 +247,30 @@
 
             getAffichageArtistes: function(){
 
-                console.log(this.affichage.listeArtistes);
+                for(b in this.affichage){
+                    this.affichage[b] = false
+                }
+
                 this.affichage.listeArtistes = true;
-                this.affichage.listeScenes = false;
-                this.affichage.listeJours = false;
+
             },
 
             getAffichageScenes: function(){
-                this.affichage.listeArtistes = false;
-                this.affichage.listeJours = false;
+
+                for(b in this.affichage){
+                    this.affichage[b] = false
+                }
+
                 this.affichage.listeScenes = true;
             },
 
             getAffichageJours: function(){
-                this.affichage.listeArtistes = false;
-                this.affichage.listeJours = false;
-                this.affichage.listeScenes = true;
+
+                for(b in this.affichage){
+                    this.affichage[b] = false
+                }
+
+                this.affichage.listeJours = true;
             },
 
 
