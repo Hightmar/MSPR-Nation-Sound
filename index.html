@@ -80,9 +80,9 @@
             </div>
         </div>
 
-        <!--<div class="container-fluid artistes"><img :src="artiste.acf.image"></div>-->
-        <!--<div class="container-fluid billeterie"><a href="https://www.fnacspectacles.com/"class="texte-billeterie"> BILLETERIE </a></div>-->
-        <!--<div class="container-fluid nouvelles-generales"><p class="texte-nouvelles-generales"> NEWS</p></div>-->
+        <!--<div class="container-fluid artistes"></div>-->
+        <div class="container-fluid billeterie"><a href="https://www.fnacspectacles.com/"class="texte-billeterie"> BILLETERIE </a></div>
+        <div class="container-fluid nouvelles-generales"><p class="texte-nouvelles-generales"> NEWS</p></div>
         <!--<div class="container-fluid maps"><p class="texte-maps"> CARTE INTERACTIVE</p></div>-->
 
         <div class="container-fluid">
@@ -202,12 +202,13 @@
             </div>
 
             <div v-if="affichage.listeFaq">
-                <div v-for="faq in faqs" v-for="i=1; i++">
-                    <div data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" v-html="faq.acf.question_1">
+                <div v-for="faq in faqs">
+                    <div data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" v-html="'faq.acf.question_' + incrementation(i)">
+
                     </div>
 
                     <div class="collapse" id="collapseExample">
-                        <div class="card card-body" v-html="faq.acf.reponse_1">
+                        <div class="card card-body" v-html="'faq.acf.reponse_' + incrementation(i)">
 
                         </div>
                     </div>
@@ -254,6 +255,12 @@
         // Methods pour afficher le contenu de la modal en rapport avec la card cliquée
         methods: {
 
+            incrementation: function(i){
+                vm =  this;
+                var y = 0;
+                y++;
+                return y;
+            },
 
             getArtisteScene: function(id){
 
