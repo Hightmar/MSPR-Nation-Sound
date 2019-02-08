@@ -22,7 +22,7 @@
     <div id="app">
         <nav class="navbar navbar-dark bg-dark sticky-top">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.html">
                     <img class="logo" src="images/logo-nationsounds.png"></img>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,26 +39,19 @@
                             <a class="text-muted visible-xs" @click="getAffichageArtistes()" data-toggle="collapse" data-target=".navbar-collapse">PAR ARTISTE<br></a>
                             <a class="text-muted visible-xs" @click="getAffichageScenes()" data-toggle="collapse" data-target=".navbar-collapse">PAR SCENE<br></a>
                             <a class="text-muted visible-xs" @click="getAffichageJours()" data-toggle="collapse" data-target=".navbar-collapse">PAR JOUR<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">MES FAVORIS<br></a>
                         <li class="nav-item active">
                             <div class="dropdown-divider"></div>
-                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-map-marker-alt"></i> CARTE INTERACTIVE<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">ITINÉRAIRE<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">RESTAURATION<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">BAR<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">WC<br></a>
-                            <a class="text-muted visible-xs" data-toggle="collapse" data-target=".navbar-collapse">MERCHANDISING</a>
+                            <a class="text-white h6 visible-xs" href="carte.html"><i class="fas fa-map-marker-alt"></i> CARTE INTERACTIVE<br></a>
                         <li class="nav-item active">
-                            <div class="dropdown-divider"></div>
                         <li class="nav-item active">
                             <div class="dropdown-divider"></div>
                             <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-info-circle"></i> INFOS PRATIQUES</a>
                         <li class="nav-item active">
                             <div class="dropdown-divider"></div>
-                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-hands-helping"></i> PARTENAIRES</a>
+                            <a class="text-white h6 visible-xs" @click="getAffichagePartenaires()" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-hands-helping"></i> PARTENAIRES</a>
                         <li class="nav-item active">
                             <div class="dropdown-divider"></div>
-                            <a class="text-white h6 visible-xs" data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-comment-alt"></i> FAQ</a>
+                            <a class="text-white h6 visible-xs" @click="getAffichageFaq()"data-toggle="collapse" data-target=".navbar-collapse"><i class="fas fa-comment-alt"></i> FAQ</a>
                         </li>
                     </ul>
                 </div>
@@ -94,9 +87,15 @@
 
         <div class="container-fluid">
             <div v-if="affichage.listeArtistes" id="artistes"> <!-- A LIER DANS LE MENU -->
+                <form>
+                    <select name="style" size="1">
+                        <option v-for="artiste in artistes" v-html="artiste.acf.style"></option>
+                    </select>
+                </form>
+
+
                 <div class="card-columns">
                     <div class="card" v-for="artiste in artistes">
-
                         <!-- Rend toute la card cliquable-->
                         <div data-toggle="modal" :data-target="'#modal' + artiste.id">
                             <div class="card-body">
@@ -192,6 +191,29 @@
                 <button type="button" class="btn btn-primary d-inline">Dimanche</button>
 
             </div>
+
+            <div v-if="affichage.listePartenaires">
+                <h1 class="text-center"> NOS PARTENAIRES </h1>
+                <div v-for="partenaire in partenaires" >
+                    <div v-html="partenaire.title.rendered"></div>
+                    <div v-html="partenaire.content.rendered"></div>
+                </div>
+
+            </div>
+
+            <div v-if="affichage.listeFaq">
+                <div v-for="faq in faqs" v-for="i=1; i++">
+                    <div data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" v-html="faq.acf.question_1">
+                    </div>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body" v-html="faq.acf.reponse_1">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <!-- Container-->
         </div>
     <!-- #app -->
@@ -206,6 +228,8 @@
         data:{
             artistes: [],
             scenes: [],
+            partenaires:[],
+            faqs: [],
 
             // Permet de ne rien afficher tant que le script ne s'est pas chargé
             afficher: false,
@@ -213,7 +237,9 @@
             affichage:{
                 listeArtistes: false,
                 listeScenes: false,
-                listeJours: false
+                listeJours: false,
+                listePartenaires: false,
+                listeFaq: false
             }
         },
 
@@ -221,15 +247,13 @@
         mounted: function () {
             this.recuperedArtistes();
             this.recuperedScenes();
-
+            this.recuperedPartenaires();
+            this.recuperedFaq();
         },
 
         // Methods pour afficher le contenu de la modal en rapport avec la card cliquée
         methods: {
 
-            console: function() {
-                console.log('test')
-            },
 
             getArtisteScene: function(id){
 
@@ -242,6 +266,39 @@
                 });
 
                 return artistesScene;
+            },
+
+            getPartenaire: function(id){
+
+                var partenairesRecup = this.partenaires.filter(function (c) {
+                    if(c.id === 266 ){
+                        console.log(c);
+
+                        return c;
+                    }
+                });
+
+                return partenairesRecup;
+            },
+
+            getAffichagePartenaires: function(){
+
+                for(b in this.affichage){
+                    this.affichage[b] = false
+                }
+
+                this.affichage.listePartenaires = true;
+
+            },
+
+            getAffichageFaq: function(){
+
+                for(b in this.affichage){
+                    this.affichage[b] = false
+                }
+
+                this.affichage.listeFaq = true;
+
             },
 
             getAffichageArtistes: function(){
@@ -272,6 +329,26 @@
                 this.affichage.listeJours = true;
             },
 
+
+            recuperedPartenaires: function(){
+                vm = this;
+
+                // Règle les problèmes de CORS
+                var myHeaders = new Headers();
+                var myInit = { method: 'GET',
+                    headers: myHeaders,
+                    //mode: 'no-cors',
+                    cache: 'default'
+                };
+
+                fetch('https://mspr.projets-ecole.ovh/wp-json/wp/v2/posts', myInit).then(function(response) {
+                    response.json().then(function(response){
+                        console.log(response);
+                        vm.partenaires = response;
+                        vm.afficher = true;
+                    })
+                })
+            },
 
             recuperedArtistes: function(){
                 vm = this;
@@ -309,6 +386,27 @@
                         console.log(response);
                         vm.scenes = response;
                         vm.afficher = true;
+                    })
+                })
+            },
+
+            recuperedFaq: function(){
+                vm = this;
+
+                // Règle les problèmes de CORS
+                var myHeaders = new Headers();
+                var myInit = { method: 'GET',
+                    headers: myHeaders,
+                    //mode: 'no-cors',
+                    cache: 'default'
+                };
+
+                fetch('https://mspr.projets-ecole.ovh/wp-json/wp/v2/faq', myInit).then(function(response) {
+                    response.json().then(function(response){
+                        console.log(response);
+                        vm.faqs = response;
+                        vm.afficher = true;
+
                     })
                 })
             }

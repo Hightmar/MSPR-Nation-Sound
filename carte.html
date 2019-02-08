@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Interactive Map</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+		<nav class="navbar navbar-dark bg-dark sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img class="logo" src="images/logo-nationsounds.png"></img>
+                </a>
+                        
+            </div>
+        </nav>
+      <div id="app" class="container">
+        <div class="dropdown-divider dropdown-divider-carte"></div>
+        <p class="carte-titre"> Carte interactive</p>
+        <div class="dropdown-divider dropdown-divider-carte"></div>
+          <div class="row">
+            <div class="col-md-9">
+                <div id="map" class="map"></div>
+            </div>
+            <div class="col-md-3">
+              <p class="carte-sous-titre"> <i>Cochez pour faire apparaître les éléments sur la carte :</i> </p>
+                <div
+                class="form-check"
+                v-for="layer in layers"
+                :key="layer.id"
+              >
+              <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    v-model="layer.active"
+                    @change="layerChanged(layer.id, layer.active)"
+                  />
+                  {{ layer.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
